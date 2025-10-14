@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile</title>
+    <link href="/css/output.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="min-h-screen flex items-center justify-center py-12">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full">
+            <h1 class="text-2xl font-bold mb-2 text-center text-gray-800">Welcome, <%= user.name %>!</h1>
+            <p class="text-gray-600 mb-6 text-center">Please provide your details to complete your profile.</p>
+
+            <form action="/complete-profile/driver" method="POST">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Personal Details -->
+                    <div class="mb-4">
+                        <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age</label>
+                        <input type="number" id="age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    </div>
+
+                    <!-- Vehicle Details -->
+                    <div class="mb-4">
+                        <label for="vehicleType" class="block text-gray-700 text-sm font-bold mb-2">Vehicle Type</label>
+                        <input type="text" id="vehicleType" name="vehicleType" placeholder="e.g., Van, Bus" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="vehicleName" class="block text-gray-700 text-sm font-bold mb-2">Vehicle Name</label>
+                        <input type="text" id="vehicleName" name="vehicleName" placeholder="e.g., Ford Transit" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="vehicleSize" class="block text-gray-700 text-sm font-bold mb-2">Vehicle Size</label>
+                        <input type="text" id="vehicleSize" name="vehicleSize" placeholder="e.g., 12-seater" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    </div>
+
+                    <!-- Legal Details -->
+                    <div class="mb-4">
+                        <label for="licenseNumber" class="block text-gray-700 text-sm font-bold mb-2">Driver's License Number</label>
+                        <input type="text" id="licenseNumber" name="licenseNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="vehicleRegistration" class="block text-gray-700 text-sm font-bold mb-2">Vehicle Registration Number</label>
+                        <input type="text" id="vehicleRegistration" name="vehicleRegistration" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700" required>
+                    </div>
+                    <div class="mb-4 md:col-span-2">
+                        <label for="aadhaarProofUrl" class="block text-gray-700 text-sm font-bold mb-2">Aadhaar Proof (Upload URL)</label>
+                        <input type="text" id="aadhaarProofUrl" name="aadhaarProofUrl" placeholder="Link to uploaded document" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700">
+                        <p class="text-xs text-gray-500 mt-1">For now, please provide a link to your uploaded document.</p>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+                        Save and Complete Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
