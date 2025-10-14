@@ -13,4 +13,10 @@ router.post('/login', authController.postLogin);
 // Logout
 router.get('/logout', authController.getLogout);
 
+// Profile Completion
+router.get('/complete-profile', authController.getCompleteProfile);
+router.post('/complete-profile/student', authController.postCompleteProfileStudent);
+router.post('/complete-profile/driver', authController.postCompleteProfileDriver);
+
+
 module.exports = router;

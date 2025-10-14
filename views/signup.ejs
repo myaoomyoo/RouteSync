@@ -1,40 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Create Account | RouteSync</title>
-  <link rel="stylesheet" href="/style.css"/> <!-- Corrected path -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - RouteSync</title>
+    <link href="/css/output.css" rel="stylesheet">
+    <style>
+        /* For the pop-up */
+        .popup {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+    </style>
 </head>
-<body>
-  <div class="auth-container">
-    <div class="auth-box">
-      <h2>Create Your Account</h2>
-      <form action="/signup" method="POST" class="auth-form">
-        <input type="text" name="name" placeholder="Full Name" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-
-        <!-- Add role selection -->
-        <select name="role" required>
-          <option value="student">Student</option>
-          <option value="driver">Driver</option>
-          <option value="operator">Operator</option>
-        </select>
-
-        <button type="submit" class="btn primary full-width">Sign Up</button>
-      </form>
-
-      <div class="divider">or</div>
-
-      <div class="social-logins">
-        <button class="btn social google full-width">Sign up with Google</button>
-        <button class="btn social facebook full-width">Sign up with Facebook</button>
-      </div>
-
-      <p class="login-link">Already have an account? <a href="/login">Log in</a></p> <!-- Corrected link -->
+<body class="bg-gray-100 font-sans">
+    <!-- Success Pop-up -->
+    <div id="success-popup" class="popup fixed top-5 right-5 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg opacity-0 transform translate-y-2">
+        User created, you may now log in.
     </div>
-  </div>
+
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Create your Account</h2>
+
+            <form id="signup-form">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                </div>
+                <div class="mb-6">
+                    <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role</label>
+                    <select id="role" name="role" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        <option value="student">Student</option>
+                        <option value="driver">Driver</option>
+                        <option value="operator">Operator</option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
+                        Sign Up
+                    </button>
+                </div>
+                <p class="text-center text-gray-500 text-xs mt-4">
+                    Already have an account? <a href="/login" class="text-blue-500 hover:text-blue-800">Log in</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signup-form');
+        const popup = document.getElementById('success-popup');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    // Show pop-up
+                    popup.classList.remove('opacity-0', 'translate-y-2');
+
+                    // Redirect after a delay
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000); // 2-second delay
+                } else {
+                    const errorText = await response.text();
+                    alert('Error: ' + errorText);
+                }
+            } catch (error) {
+                console.error('Signup error:', error);
+                alert('An unexpected error occurred. Please try again.');
+            }
+        });
+    </script>
 </body>
 </html>
