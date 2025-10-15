@@ -5,12 +5,14 @@
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.2",
-    "mongoose": "^8.19.1"
+    "mongoose": "^8.19.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "scripts": {
     "start": "node server.js",
-    "build:css": "npx postcss public/css/style.css -o public/css/output.css",
+    "build:css": "npx postcss public/css/globals.css -o public/css/output.css",
     "test": "jest"
   },
   "devDependencies": {

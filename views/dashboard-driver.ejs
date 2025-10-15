@@ -1,107 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Driver Dashboard</title>
-    <link href="/css/output.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="bg-gray-100 font-sans">
+<% layout('layouts/dashboard') -%>
+<% block('title', 'Driver Dashboard') -%>
 
-    <!-- Navbar -->
-    <nav class="bg-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex-shrink-0 flex items-center">
-                    <h1 class="text-xl font-bold text-gray-800">RouteSync</h1>
-                </div>
-                <div class="flex items-center">
-                    <span class="text-gray-700 mr-4">Welcome, <%= user.name %></span>
-                    <a href="/logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<h2 class="text-2xl font-semibold text-gray-800 mb-6">Your Dashboard</h2>
 
-    <!-- Main Content -->
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div class="px-4 py-6 sm:px-0">
-            <h2 class="text-2xl font-semibold text-gray-800 mb-6">Your Dashboard</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Trip History Chart -->
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Weekly Trip History</h3>
-                    <canvas id="tripHistoryChart"></canvas>
-                </div>
-
-                <!-- Status Summary -->
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Trip Status Summary</h3>
-                    <canvas id="statusSummaryChart"></canvas>
-                </div>
-
-                <!-- Vehicle Information -->
-                <div class="bg-white p-6 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">Your Information</h3>
-                    <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Phone</dt>
-                            <dd class="mt-1 text-sm text-gray-900"><%= user.phone %></dd>
-                        </div>
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Vehicle</dt>
-                            <dd class="mt-1 text-sm text-gray-900"><%= user.vehicleName %> (<%= user.vehicleType %>)</dd>
-                        </div>
-                        <div class="sm:col-span-1">
-                            <dt class="text-sm font-medium text-gray-500">Vehicle Size</dt>
-                            <dd class="mt-1 text-sm text-gray-900"><%= user.vehicleSize %></dd>
-                        </div>
-                    </dl>
-                </div>
-            </div>
-        </div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Trip History Chart -->
+    <div class="bg-card p-6 rounded-lg shadow">
+        <h3 class="text-lg font-medium text-card-foreground mb-4">Weekly Trip History</h3>
+        <canvas id="tripHistoryChart"></canvas>
     </div>
 
-    <script>
-        // Fetch and render trip history chart
-        fetch('/api/driver/trip-history')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('tripHistoryChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['6 days ago', '5 days ago', '4 days ago', '3 days ago', '2 days ago', 'Yesterday', 'Today'],
-                        datasets: [{
-                            label: '# of Trips',
-                            data: data.data,
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: { scales: { y: { beginAtZero: true } } }
-                });
-            });
+    <!-- Status Summary -->
+    <div class="bg-card p-6 rounded-lg shadow">
+        <h3 class="text-lg font-medium text-card-foreground mb-4">Trip Status Summary</h3>
+        <canvas id="statusSummaryChart"></canvas>
+    </div>
 
-        // Fetch and render status summary chart
-        fetch('/api/driver/status-summary')
-            .then(response => response.json())
-            .then(data => {
-                const ctx = document.getElementById('statusSummaryChart').getContext('2d');
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Completed', 'Delayed', 'Cancelled'],
-                        datasets: [{
-                            data: [data.completed, data.delayed, data.cancelled],
-                            backgroundColor: ['rgba(75, 192, 192, 0.6)', 'rgba(255, 206, 86, 0.6)', 'rgba(255, 99, 132, 0.6)'],
-                        }]
-                    }
-                });
+    <!-- Vehicle Information -->
+    <div class="bg-card p-6 rounded-lg shadow col-span-1 md:col-span-2 lg:col-span-3">
+        <h3 class="text-lg font-medium text-card-foreground mb-4">Your Information</h3>
+        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+            <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-muted-foreground">Phone</dt>
+                <dd class="mt-1 text-sm text-foreground"><%= user.phone %></dd>
+            </div>
+            <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-muted-foreground">Vehicle</dt>
+                <dd class="mt-1 text-sm text-foreground"><%= user.vehicleName %> (<%= user.vehicleType %>)</dd>
+            </div>
+            <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-muted-foreground">Vehicle Size</dt>
+                <dd class="mt-1 text-sm text-foreground"><%= user.vehicleSize %></dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<script>
+    // Fetch and render trip history chart
+    fetch('/api/driver/trip-history')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('tripHistoryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['6 days ago', '5 days ago', '4 days ago', '3 days ago', '2 days ago', 'Yesterday', 'Today'],
+                    datasets: [{
+                        label: '# of Trips',
+                        data: data.data,
+                        backgroundColor: 'hsl(var(--primary))',
+                        borderColor: 'hsl(var(--primary))',
+                        borderWidth: 1
+                    }]
+                },
+                options: { scales: { y: { beginAtZero: true } } }
             });
-    </script>
-</body>
-</html>
+        });
+
+    // Fetch and render status summary chart
+    fetch('/api/driver/status-summary')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('statusSummaryChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'Delayed', 'Cancelled'],
+                    datasets: [{
+                        data: [data.completed, data.delayed, data.cancelled],
+                        backgroundColor: ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--destructive))'],
+                    }]
+                }
+            });
+        });
+</script>
