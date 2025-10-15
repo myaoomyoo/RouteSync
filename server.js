@@ -4,6 +4,7 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const path = require('path');
+const expressLayouts = require('express-ejs-layouts');
 
 dotenv.config(); // Load environment variables
 
@@ -13,10 +14,6 @@ const port = 3000;
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-if (!process.env.SESSION_SECRET) {
-  throw new Error('FATAL ERROR: SESSION_SECRET is not defined.');
-}
-
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
@@ -29,7 +26,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/css', express.static(path.join(__dirname, 'public/css')));
 
-// Set EJS view engine
+// View Engine Setup
+app.use(expressLayouts);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
