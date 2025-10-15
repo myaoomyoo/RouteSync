@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 
 exports.getSignup = (req, res) => {
-  res.render('signup');
+  res.render('signup', { layout: false });
 };
 
 exports.postSignup = async (req, res) => {
@@ -19,7 +19,7 @@ exports.postSignup = async (req, res) => {
 };
 
 exports.getLogin = (req, res) => {
-  res.render('login');
+  res.render('login', { layout: false, error: null });
 };
 
 exports.postLogin = async (req, res) => {
@@ -27,7 +27,7 @@ exports.postLogin = async (req, res) => {
 
   const user = await User.findOne({ email });
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.render('login', { error: 'Invalid credentials' });
+    return res.render('login', { layout: false, error: 'Invalid credentials' });
   }
 
   req.session.userId = user._id;
@@ -72,9 +72,9 @@ exports.getCompleteProfile = async (req, res) => {
 
   // Render the appropriate profile completion form
   if (user.role === 'student') {
-    res.render('complete-profile-student', { user });
+    res.render('complete-profile-student', { layout: false, user });
   } else if (user.role === 'driver') {
-    res.render('complete-profile-driver', { user });
+    res.render('complete-profile-driver', { layout: false, user });
   } else {
     // Operators don't need to complete a profile in this flow
     // Mark their profile as complete and redirect
