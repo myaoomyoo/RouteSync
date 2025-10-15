@@ -49,7 +49,7 @@ app.use('/dashboard', dashboardRoutes);
 app.use('/api', apiRoutes);
 
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { layout: false });
 });
 
 // ---------- Server ---------- //
